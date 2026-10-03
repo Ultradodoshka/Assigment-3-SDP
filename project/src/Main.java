@@ -5,7 +5,7 @@ public class Main {
 
     private static void runDemo() {
         int passed = 0;
-        int total = 5;
+        int total = 7;
 
         Device tv = new TVDevice();
         Device radio = new RadioDevice();
@@ -54,6 +54,21 @@ public class Main {
 
         System.out.println("T5 " + (t5Pass ? "PASS" : "FAIL") + " sameObject=" + sameObject + " | stateUnchanged=" + stateUnchanged);
         System.out.println("before=" + beforeResult + " | after=" + afterResult);
+
+        Device projector = new ProjectorDevice();
+
+        basicRemote.setImplementation(projector);
+        String t6Result = basicRemote.execute();
+        boolean t6Pass = "Type: Projector, Power: on, Volume: 30".equals(t6Result);
+        if (t6Pass) passed++;
+        System.out.println("T6 " + (t6Pass ? "PASS" : "FAIL") + " | BasicRemote + ProjectorDevice | result=" + t6Result);
+
+        quietRemote.setImplementation(projector);
+        String t7Result = quietRemote.execute();
+        boolean t7Pass = "Type: Projector, Power: on, Volume: 5".equals(t7Result);
+        if (t7Pass) passed++;
+        System.out.println("T7 " + (t7Pass ? "PASS" : "FAIL") + " | QuietRemote + ProjectorDevice | result=" + t7Result);
+
         System.out.println("SUMMARY: " + passed + "/" + total + " PASS");
     }
 }
